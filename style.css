@@ -1,0 +1,319 @@
+    :root {
+      --bg-color: #fafafa;
+      --text-main: #111827;
+      --text-muted: #6b7280;
+      --bg-surface: #ffffff;
+      --border: #e5e7eb;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --correct: #059669;
+      --incorrect: #dc2626;
+      --incorrect-bg: rgba(220, 38, 38, 0.1);
+      --cursor: #2563eb;
+      --bar-bg: #e5e7eb;
+      --focus-ring: rgba(37, 99, 235, 0.1);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-color: #0f172a;
+        --text-main: #f8fafc;
+        --text-muted: #94a3b8;
+        --bg-surface: #1e293b;
+        --border: #334155;
+        --primary: #3b82f6;
+        --primary-hover: #60a5fa;
+        --correct: #10b981;
+        --incorrect: #ef4444;
+        --incorrect-bg: rgba(239, 68, 68, 0.2);
+        --cursor: #3b82f6;
+        --bar-bg: #334155;
+        --focus-ring: rgba(59, 130, 246, 0.1);
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      line-height: 1.5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    #app {
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .screen {
+      display: none;
+      flex-direction: column;
+    }
+
+    .screen.active {
+      display: flex;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    h1, h2, h3 {
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    p {
+      color: var(--text-muted);
+    }
+
+    button {
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      border: 2px solid var(--border);
+      color: var(--text-main);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-outline.selected {
+      border-color: var(--primary);
+      background-color: var(--focus-ring);
+      color: var(--primary);
+    }
+
+    .btn-danger {
+      background-color: transparent;
+      border: 2px solid var(--incorrect);
+      color: var(--incorrect);
+    }
+
+    .btn-danger:hover {
+      background-color: var(--incorrect);
+      color: white;
+    }
+
+    /* Screen 1: Home */
+    .difficulty-selector {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .difficulty-selector button {
+      flex: 1;
+    }
+
+    /* Screen 2: Game */
+    .stats-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      font-weight: 600;
+      font-size: 1.125rem;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 6px;
+      background: var(--bar-bg);
+      border-radius: 3px;
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--primary);
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+
+    .sentence-box {
+      background: var(--bg-surface);
+      padding: 24px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      font-size: 1.5rem;
+      line-height: 1.6;
+      margin-bottom: 24px;
+      color: var(--text-muted);
+      user-select: none;
+    }
+
+    .char {
+      position: relative;
+      color: var(--text-muted);
+      transition: color 0.1s, background-color 0.1s;
+    }
+
+    .char.correct {
+      color: var(--correct);
+    }
+
+    .char.incorrect {
+      color: var(--incorrect);
+      background-color: var(--incorrect-bg);
+      border-radius: 2px;
+    }
+
+    .char.current::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 10%;
+      bottom: 10%;
+      width: 2px;
+      background-color: var(--cursor);
+      animation: blink 1s step-end infinite;
+    }
+
+    .char.extra {
+      display: inline-block;
+      width: 0.5em;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    #type-input {
+      width: 100%;
+      padding: 16px;
+      font-size: 1.25rem;
+      font-family: inherit;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      background: var(--bg-surface);
+      color: var(--text-main);
+      margin-bottom: 24px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    #type-input:focus {
+      border-color: var(--primary);
+    }
+
+    /* Screen 3: Results */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .stat-card {
+      background: var(--bg-surface);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .stat-unit {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .accuracy-container {
+      margin-bottom: 32px;
+    }
+
+    .accuracy-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .accuracy-track {
+      width: 100%;
+      height: 16px;
+      background: var(--bar-bg);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .accuracy-fill {
+      height: 100%;
+      background: var(--correct);
+      width: 0%;
+      transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 16px;
+    }
+    
+    .action-buttons button {
+      flex: 1;
+    }
+
+    @media (max-width: 480px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      .difficulty-selector {
+        flex-direction: column;
+      }
+      .action-buttons {
+        flex-direction: column;
+      }
+      .sentence-box {
+        font-size: 1.25rem;
+        padding: 16px;
+      }
+    }
+  </style>
